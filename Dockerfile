@@ -16,3 +16,6 @@ EXPOSE 80
 # Additional debug steps
 RUN echo "<?php phpinfo(); ?>" > /var/www/html/info.php && \
     chmod 644 /var/www/html/.htaccess
+# Add PostgreSQL support
+RUN apt-get install -y libpq-dev && \
+    docker-php-ext-install pdo pdo_pgsql
