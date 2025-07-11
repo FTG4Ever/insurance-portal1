@@ -56,3 +56,25 @@ if (!file_exists(PDF_STORAGE_PATH)) {
     mkdir(PDF_STORAGE_PATH, 0777, true);
 }
 ?>
+// Use this EXACT format for Render PostgreSQL
+$dbUrl = parse_url(getenv('DATABASE_URL') ?: 'postgresql://user:pass@host:5432/dbname');
+
+define('DB_HOST', $dbUrl['host']);
+define('DB_USER', $dbUrl['user']);
+define('DB_PASS', $dbUrl['pass']);
+define('DB_NAME', ltrim($dbUrl['path'], '/'));
+define('DB_PORT', $dbUrl['port']);
+
+try {
+    $pdo = new PDO(
+        "pgsql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME,
+        DB_USER,
+        DB_PASS,
+        [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_PERSISTENT => true
+        ]
+    );
+} catch (PDOException $e) {
+    die("PostgreSQL connection failed: " . $e->getMessage());
+}
