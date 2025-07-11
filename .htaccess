@@ -1,0 +1,12 @@
+Options -Indexes +FollowSymLinks
+DirectoryIndex index.php
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^ index.php [L]
+</IfModule>
+
+<FilesMatch "\.(php|css|js|png)$">
+  Require all granted
+</FilesMatch>
