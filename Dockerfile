@@ -13,3 +13,6 @@ RUN a2enmod rewrite && \
 
 COPY . /var/www/html/
 EXPOSE 80
+# Additional debug steps
+RUN echo "<?php phpinfo(); ?>" > /var/www/html/info.php && \
+    chmod 644 /var/www/html/.htaccess
